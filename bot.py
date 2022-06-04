@@ -69,20 +69,16 @@ async def compila_questionario(event):
 async def main():
     await bot.start(bot_token=bot_token)
 
-    await bot(functions.bots.SetBotCommandsRequest(
+    await bot(
+        functions.bots.SetBotCommandsRequest(
             scope=types.BotCommandScopeDefault(),
-            lang_code='',
+            lang_code="",
             commands=[
-                types.BotCommand(
-                    command='start',
-                    description='Avvia il bot'
-                ),
-                types.BotCommand(
-                    command='menu',
-                    description='Apri il menu del bot'
-                )
-            ]
-    ))
+                types.BotCommand(command="start", description="Avvia il bot"),
+                types.BotCommand(command="menu", description="Apri il menu del bot"),
+            ],
+        )
+    )
 
     await bot.run_until_disconnected()
 

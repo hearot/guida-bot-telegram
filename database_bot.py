@@ -26,16 +26,12 @@ tastiera = [
 tastiera_admin = tastiera + [[Button.inline("Stampa questionari")]]
 
 
-@bot.on(events.NewMessage(pattern="^/start$"))
+@bot.on(events.NewMessage(pattern="^/start$", func=lambda e: e.is_private))
 async def start(event):
     await event.respond("Ciao! Premi /menu.")
 
 
-@bot.on(
-    events.NewMessage(
-        pattern="^/menu$",
-    )
-)
+@bot.on(events.NewMessage(pattern="^/menu$", func=lambda e: e.is_private))
 async def menu(event):
     if event.chat_id == admin_id:
         await event.respond(
@@ -61,17 +57,27 @@ async def stampa_questionari(event):
 
     for questionario in db.questionario.find():
         messaggio += (
-            " - " + questionario["nome"] + " - " + questionario["gusto_preferito"] + "\n"
+            " - "
+            + questionario["nome"]
+            + " - "
+            + questionario["gusto_preferito"]
+            + "\n"
         )
 
     await event.respond(messaggio)
 
 
-@bot.on(events.CallbackQuery(data="Compila questionario"))
+@bot.on(events.NewMessage(pattern="^/start questionario$", func=lambda e: e.is_private))
 async def compila_questionario(event):
-    await event.delete()
+    user_id = event.chat_id
 
-    async with bot.conversation(event.chat_id) as conv:
+    risposta = questionario.find_one({"user_id": user_id})
+
+    if risposta:
+        await event.respond("Hai già compilato il questionario!")
+        return
+
+    async with bot.conversation(user_id) as conv:
         await conv.send_message("Come ti chiami?")
         nome = (await conv.get_response()).text
 
@@ -84,18 +90,74 @@ async def compila_questionario(event):
 
         questionario.insert_one(
             {
-                "user_id": event.chat_id,
+                "user_id": user_id,
                 "nome": nome,
                 "gusto_preferito": gusto_preferito,
             }
         )
 
 
-@bot.on(events.CallbackQuery(data="Chiedi gelato"))
+@bot.on(events.CallbackQuery(data="Compila questionario", func=lambda e: e.is_private))
 async def compila_questionario(event):
     await event.delete()
 
-    async with bot.conversation(event.chat_id) as conv:
+    user_id = event.chat_id
+
+    risposta = questionario.find_one({"user_id": user_id})
+
+    if risposta:
+        await event.respond("Hai già compilato il questionario!")
+        return
+
+    async with bot.conversation(user_id) as conv:
+        await conv.send_message("Come ti chiami?")
+        nome = (await conv.get_response()).text
+
+        await conv.send_message("Qual è il tuo gusto preferito?")
+        gusto_preferito = (await conv.get_response()).text.lower()
+
+        await conv.send_message(
+            f"Ciao {nome}, il tuo gusto preferito è il {gusto_preferito}!"
+        )
+
+        questionario.insert_one(
+            {
+                "user_id": user_id,
+                "nome": nome,
+                "gusto_preferito": gusto_preferito,
+            }
+        )
+
+
+@bot.on(events.InlineQuery)
+async def invia_risposte(event):
+    builder = event.builder
+
+    risposta = questionario.find_one({"user_id": event.chat_id})
+
+    if risposta:
+        await event.answer(
+            [
+                builder.article(
+                    "✍️ Invia le risposte al questionario",
+                    text=risposta["nome"] + " - " + risposta["gusto_preferito"],
+                ),
+            ]
+        )
+    else:
+        await event.answer(
+            switch_pm="‼️ Non hai compilato il questionario!",
+            switch_pm_param="questionario",
+        )
+
+
+@bot.on(events.CallbackQuery(data="Chiedi gelato", func=lambda e: e.is_private))
+async def chiedi_gelato(event):
+    await event.delete()
+
+    user_id = event.chat_id
+
+    async with bot.conversation(user_id) as conv:
         await conv.send_message("Vorresti un cono o una coppetta?")
 
         while True:
@@ -113,23 +175,20 @@ async def compila_questionario(event):
 
         await conv.send_message(f"Ecco a te un gelato {scelta} e {gusto}!")
 
+
 async def main():
     await bot.start(bot_token=bot_token)
 
-    await bot(functions.bots.SetBotCommandsRequest(
+    await bot(
+        functions.bots.SetBotCommandsRequest(
             scope=types.BotCommandScopeDefault(),
-            lang_code='',
+            lang_code="",
             commands=[
-                types.BotCommand(
-                    command='start',
-                    description='Avvia il bot'
-                ),
-                types.BotCommand(
-                    command='menu',
-                    description='Apri il menu del bot'
-                )
-            ]
-    ))
+                types.BotCommand(command="start", description="Avvia il bot"),
+                types.BotCommand(command="menu", description="Apri il menu del bot"),
+            ],
+        )
+    )
 
     await bot.run_until_disconnected()
 
