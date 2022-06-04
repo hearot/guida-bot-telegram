@@ -1,8 +1,8 @@
 # ✨🇮🇹 [Come pensare da zero un bot di Telegram con Python? Una guida passo dopo passo](https://pycon.it/en/submission/epxq)
 
-![](https://i.imgur.com/pNgvbbW.png)
+[![](https://i.imgur.com/pNgvbbW.png)](https://pycon.it)
 
-Questo repository è dedicato al materiale impiegato durante il workshop
+Questo repository raccoglie il materiale impiegato durante il workshop
 [Come pensare da zero un bot di Telegram con Python? Una guida passo dopo passo](https://pycon.it/en/submission/epxq)
 presentato a **PyCon IT 22** il **05/06/22**.
 
@@ -21,8 +21,10 @@ Installa tutte le dipendenze con:
 
 ```pip install -r requirements.txt```
 
-Per eseguire ```database_bot.py```, dovrai aver installato [MongoDB](https://www.mongodb.com/try/download/community).
+Per eseguire ```database_bot.py```, assicurati di aver
+installato [MongoDB](https://www.mongodb.com/try/download/community).
 
 ## 🖥 Visualizzare le slide
 
-Per aprire la presentazione, dovrai aver installare [slides](https://github.com/maaslalani/slides).
+Per aprire la presentazione, dovrai aver installato [slides](https://github.com/maaslalani/slides). Una volta
+installatolo, esegui `slides slides.md`.

@@ -56,13 +56,7 @@ async def stampa_questionari(event):
     messaggio = "**Questionari:**\n\n"
 
     for questionario in db.questionario.find():
-        messaggio += (
-            " - "
-            + questionario["nome"]
-            + " - "
-            + questionario["gusto_preferito"]
-            + "\n"
-        )
+        messaggio += f" - {questionario['nome']}, {questionario['gusto_preferito']}\n"
 
     await event.respond(messaggio)
 

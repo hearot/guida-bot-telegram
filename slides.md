@@ -36,19 +36,21 @@ Ma è davvero così per Telegram?
 ---
 
 # Userbot vs bot: quale dei due è un bot?
-Rispondiamo velocemente alla domanda: **nì**.
+Rispondiamo velocemente alla domanda di prima: **nì**.
 
 Un bot su Telegram può rientrare nella definizione che abbiamo
 presentato prima solo nel caso in cui, nell'effettivo, veniamo
 riconosciuti dai server di Telegram come utenti.
 
 Ciò vuol dire che dobbiamo predisporre di un numero di telefono e
-che dobbiamo effettivamente creare un account di Telegram.
+che dobbiamo effettivamente creare un account di Telegram. Cosa che
+tuttavia non avviene per un bot di Telegram.
 
 ---
 
 # Userbot vs bot, secondo la definizione classica
-Questo tipo di bot, tuttavia, viene definito nel gergo di Telegram
+Il bot della definizione classica, infatti,
+viene definito nel gergo di Telegram
 *userbot*, ossia, banalmente, "utente-bot". Perché?
 
 Perché risultiamo come utenti, anche se automatizzati, e come
@@ -61,23 +63,13 @@ Quindi è necessario tenere a mente la differenza sostanziale tra i due termini.
 
 ---
 
-# Userbot vs bot: due tipi di interazioni a confronto
-Prima di tutto, chiariamo un concetto, ossia il modo in cui
-bot e *userbot* interagiscono con i server di Telegram.
-
-Mentre i bot classicamente usufruiscono delle **Bot API**,
-gli *userbot* si connettono a Telegram con lo stesso protocollo
-impiegato dai client degli utenti, ossia **MTProto**.
-
----
-
 # Bot API, una semplice introduzione
 Le **Bot API** sono API concesse e pubblicate ufficialmente
 da Telegram per formalizzare e designare una piattaforma
 mediante cui è possibile gestire i bot.
 
 Lanciate per la prima volta nel Giugno 2015, esse hanno
-ricevuto un aggiornamento significante nell'Aprile 2016
+ricevuto un aggiornamento significativo nell'Aprile 2016
 (Bot API 2.0) con l'introduzione di numerosi comandi.
 
 In tempi relativamente recenti, il client che le regge
@@ -120,26 +112,25 @@ Client MTProto:
 ---
 
 # Vantaggi e svantaggi
-Come abbiamo potuto notare dallo schema scorso, **i client MTProto
-si connettono direttamente ai server di Telegram.**
+Come abbiamo potuto notare dallo schema scorso,
+**i client MTProto si connettono direttamente ai server di Telegram.**
 
-Questo enorme vantaggio, che si riflette direttamente sulla velocità
+Questo enorme vantaggio, che si riflette direttamente nella velocità
 di risposta di un bot, pone tuttavia talune limitazioni.
 
 Per esempio, usare MTProto non permette di impiegare i cosiddetti *web hooks*,
-endpoint dei nostri server richiamati direttamente dalle Bot API
-non appena una nuova richiesta arriva ad un nostro bot.
+ossia endpoint dei nostri server richiamati direttamente dalle Bot API
+in caso di messaggi diretti al nostro bot.
 
 ---
 
-# Il giusto compromesso: bot con MTProto
-Ebbene, dal momento che i client MTProto non sono altro che
-interagenti dei server Telegram, possiamo sfruttarli per
-sviluppare bot, che sebbene distinti dagli *userbot*,
-possano comunque evitare il traffico delle Bot API!
+# Schema finale delle definizioni
 
-Insomma, connettersi a MTProto senza un numero di telefono,
-il perfetto compromesso!
+|             	| Ha un token 	| Impiega MTProto 	| Impiega Bot API 	| Telegram lo riconosce come utente 	|
+|-------------	|-------------	|-----------------	|-----------------  |-----------------------------------	|
+| Userbot     	| ❌           	| ✅               	| ❌             | ✅                                 |
+| Bot         	| ✅           	| ❌               	| ✅             | ❌                                 |
+| Bot MTProto 	| ✅           	| ✅               	| ❌             | ❌                                 |
 
 ---
 
@@ -180,7 +171,7 @@ asyncio.run(main())
 # API ID, API Hash e Token
 
 Per accedere ai server di Telegram, tuttavia, ci servono
-tre parametri, che appositamente abbiamo lasciato incompleti
+tre parametri, che abbiamo appositamente lasciato incompleti
 prima.
 
    - **API ID** (necessario in caso di client MTProto)
