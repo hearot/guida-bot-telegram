@@ -96,17 +96,17 @@ discriminante.
 Bot API:
 
 ```
-~~~graph-easy --as=boxart
-[ Script ] - richiesta HTTP -> [ Bot API ] - richiesta MTProto -> [ Server di Telegram ]
-~~~
+     ┌────────┐  richiesta HTTP   ┌─────────┐  richiesta MTProto   ┌────────────────────┐
+     │ Script │ ────────────────> │ Bot API │ ───────────────────> │ Server di Telegram │
+     └────────┘                   └─────────┘                      └────────────────────┘
 ```
 
 Client MTProto:
 
 ```
-~~~graph-easy --as=boxart
-[ Script ] - richiesta MTProto -> [ Server di Telegram ]
-~~~
+     ┌────────┐  richiesta MTProto   ┌────────────────────┐
+     │ Script │ ───────────────────> │ Server di Telegram │
+     └────────┘                      └────────────────────┘
 ```
 
 ---
