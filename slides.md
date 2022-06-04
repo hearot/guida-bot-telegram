@@ -126,11 +126,11 @@ in caso di messaggi diretti al nostro bot.
 
 # Schema finale delle definizioni
 
-|             	| Ha un token 	| Impiega MTProto 	| Impiega Bot API 	| Telegram lo riconosce come utente 	|
-|-------------	|-------------	|-----------------	|-----------------  |-----------------------------------	|
-| Userbot     	| ❌           	| ✅               	| ❌             | ✅                                 |
-| Bot         	| ✅           	| ❌               	| ✅             | ❌                                 |
-| Bot MTProto 	| ✅           	| ✅               	| ❌             | ❌                                 |
+|             	| Ha un token 	| Necessita di un numero di cellulare 	| Impiega MTProto 	| Impiega Bot API 	| Telegram lo riconosce come utente 	|
+|-------------	|-------------	|-------------------------------------	|-----------------	|-----------------	|-----------------------------------	|
+| Userbot     	| ❌           	| ✅                                   	| ✅               	| ❌               	| ✅                                 	|
+| Bot         	| ✅           	| ❌                                   	| ❌               	| ✅               	| ❌                                 	|
+| Bot MTProto 	| ✅           	| ❌                                   	| ✅               	| ❌               	| ❌                                 	|
 
 ---
 
